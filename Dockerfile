@@ -1,21 +1,26 @@
-FROM kbase/sdkbase2:python
+FROM --platform=linux/amd64 kbase/sdkpython:3.8.0
 MAINTAINER KBase Developer
-# -----------------------------------------
-# In this section, you can install any system dependencies required
-# to run your App.  For instance, you could place an apt-get update or
-# install line here, a git checkout to download code, or run any other
-# installation scripts.
-# -----------------------------------------
 
-# install R dependencies
-RUN conda install -y r-essentials r-base r-xml r-rcurl
-RUN apt-get update &&\
-    apt-get install -y g++
+ENV MAMBA_ROOT_PREFIX=/opt/conda
+
+RUN apt-get update && \
+    apt-get install -y g++ curl bzip2 && \
+    curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba && \
+    mv bin/micromamba /usr/local/bin/micromamba
+
+
+ENV MAMBA_ROOT_PREFIX=/opt/conda
+
+RUN micromamba create -y -n r-env -c conda-forge -c bioconda \
+        r-base \
+        bioconductor-deseq2 && \
+    micromamba clean -afy
+
+RUN ln -s /opt/conda/envs/r-env/bin/R /usr/local/bin/R && \
+    ln -s /opt/conda/envs/r-env/bin/Rscript /usr/local/bin/Rscript
 RUN R -q -e 'install.packages("getopt",  repos="http://cran.us.r-project.org")' && \
     R -q -e 'if (!require("getopt")) {quit(status=1)}'
-RUN R -q -e 'install.packages("BiocManager", repos="http://cran.us.r-project.org")' && \
-    R -q -e 'BiocManager::install("DESeq2", ask=FALSE)' && \
-    R -q -e 'if (!require("DESeq2")) {quit(status=1)}'
+RUN Rscript -e 'library(DESeq2); packageVersion("DESeq2")'
 
 RUN pip install --upgrade pip \
     && python --version
@@ -25,7 +30,6 @@ RUN pip install coverage==5.5 && \
     pip install Jinja2==3.0.1 && \
     pip install JSONRPCBase==0.2.0 && \
     pip install nose==1.3.7
-# -----------------------------------------
 
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work

@@ -70,8 +70,8 @@ for (pair in contrast_pairs){
 
 }
 #rld<- rlogTransformation(dds, blind=TRUE)
-#rld<- rlogTransformation(dds, blind=TRUE)
-vsd <- vst(dds, blind=TRUE)
+rld<- rlogTransformation(dds, blind=TRUE)
+#vsd <- vst(dds, blind=TRUE)
 
 dmesg("Start plotting results")
 
@@ -84,7 +84,7 @@ dev.off()
 # PCA plots
 PCA_MAplot_file <- paste(opt$result_directory, "/deseq2_PCA_plot.png", sep='')
 png(PCA_MAplot_file)
-plotPCA(vsd, intgroup=c('conds'))
+plotPCA(rld, intgroup=c('conds'))
 dev.off()
 
 dmesg("Exiting run_DESeq.R")

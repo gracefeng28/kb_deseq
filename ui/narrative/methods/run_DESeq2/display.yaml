@@ -46,12 +46,12 @@ parameters :
     ui-name : |
       First Condition
     short-hint : |
-      First condition in paired condition. This should be the wild type or control condition in the paired condition.
+      First condition in paired condition. This should be the control condition or base level condition in the paired condition. 
   condition_label_2:
     ui-name : |
       Second Condition
     short-hint : |
-      Second condition in paired condition. This should be the mutant or treatment condition in the paired condition.
+      Second condition in paired condition. This should be the treatment condition or the test condition in the paired condition.
 
 parameter-groups :
     condition_pairs :

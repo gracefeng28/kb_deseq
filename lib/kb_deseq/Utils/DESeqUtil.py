@@ -326,6 +326,7 @@ class DESeqUtil:
         pair_string = ",".join(["_vs_".join(x) for x in params['condition_labels']])
         rcmd_list = ['Rscript', os.path.join(os.path.dirname(__file__), 'run_DESeq.R')]
         rcmd_list.extend(['--result_directory', '"{}"'.format(result_directory)])
+    
         rcmd_list.extend(['--condition_string', '"{}"'.format(condition_string)])
         rcmd_list.extend(['--contrast_pairs', '"{}"'.format(pair_string)])
         if params.get('input_type') == 'transcripts':
@@ -412,6 +413,7 @@ class DESeqUtil:
 
         items = self.expression_set_data.get('items')
         condition_replicate_name_mapping = collections.OrderedDict()
+     
         for item in items:
             expression_ref = item['ref']
             expr_object = self.ws.get_objects2({'objects':
@@ -428,7 +430,7 @@ class DESeqUtil:
                 condition_replicate_name_mapping.update({expr_condition: [expr_name]})
 
         condition_labels = list(condition_replicate_name_mapping.keys())
-
+        print("CONDITION LABELS: ", condition_labels)
         condition_label_pairs = [list(pair) for pair in itertools.combinations(condition_labels,
                                                                                2)]
 

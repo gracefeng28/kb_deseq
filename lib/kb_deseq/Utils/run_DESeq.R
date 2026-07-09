@@ -32,6 +32,8 @@ if (is.null(opt$transcripts)){
 condition_string <- opt$condition_string
 contrast_pairs <- strsplit(opt$contrast_pairs, ",")[[1]]
 
+message <- paste("CONTRAST PAIRS: ", contrast_pairs)
+#dmesg(message)
 dmesg("Start processing count matrix input")
 cntTable <- read.csv(input_file, header = TRUE)
 if (is.null(opt$transcripts)){
@@ -47,8 +49,11 @@ colData(ddsFromMatrix)$conds<-factor(colData(ddsFromMatrix)$conds, levels=unique
 dds<-DESeq(ddsFromMatrix)
 
 for (pair in contrast_pairs){
-    gene_results_file <- paste(opt$result_directory, "/", pair, "_deseq_results.csv", sep='')
+    reversed_pair <- paste(rev(strsplit(pair, "_vs_")[[1]]), collapse="_vs_")
+    gene_results_file <- paste(opt$result_directory, "/", reversed_pair, "_deseq_results.csv", sep='')
     split_pair <- strsplit(pair, "_vs_")[[1]]
+    #message <- paste("Processing pair:", reversed_pair)
+    #dmesg(message)
     res<-results(dds, alpha=0.99999, contrast=c("conds",split_pair[2],split_pair[1]))
     res<-res[order(res$padj),]
 

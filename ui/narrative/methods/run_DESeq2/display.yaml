@@ -40,17 +40,18 @@ parameters :
     ui-name : |
       Run All Paired Condition Combinations
     short-hint : |
-      Run All Paired Condition Combinations
+      Run All Paired Condition Combinations. However, the order of the conditions is arbitrary. If you want to specify the order of the conditions, please uncheck this option and select the paired condition labels below.
+    
   condition_label_1:
     ui-name : |
       First Condition
     short-hint : |
-      First condition in paired condition
+      First condition in paired condition. This should be the wild type or control condition in the paired condition.
   condition_label_2:
     ui-name : |
       Second Condition
     short-hint : |
-      Second condition in paired condition
+      Second condition in paired condition. This should be the mutant or treatment condition in the paired condition.
 
 parameter-groups :
     condition_pairs :

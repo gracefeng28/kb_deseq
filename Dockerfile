@@ -5,8 +5,8 @@ ENV MAMBA_ROOT_PREFIX=/opt/conda
 
 RUN apt-get update && \
     apt-get install -y g++ curl bzip2 && \
-    curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba && \
-    mv bin/micromamba /usr/local/bin/micromamba
+    curl -Ls https://github.com/mamba-org/micromamba-releases/releases/latest/download/micromamba-linux-64 -o /usr/local/bin/micromamba && \
+    chmod +x /usr/local/bin/micromamba
 
 
 ENV MAMBA_ROOT_PREFIX=/opt/conda

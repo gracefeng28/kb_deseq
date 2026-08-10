@@ -1,3 +1,5 @@
+1.50.2 Python dependencies updated, UI naming conventions changed to match function input, and version update 
+
 1.1.2: Hide input_type from UI (set it to 'genes')
 
 1.1.1: Fix condition order
